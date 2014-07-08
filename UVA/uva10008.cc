@@ -8,11 +8,10 @@ using namespace std;
 
 bool comp (pair<int, char> a, pair<int, char> b){
 	
-	if (a.first == b.first){
-		return a.second > b.second;
-	}
+	if (a.first == b.first)
+		return a.second < b.second;
 	else
-		return a.first < b.first;
+		return a.first > b.first;
 }
 
 int main (){
@@ -41,7 +40,7 @@ int main (){
 		v.push_back (make_pair (it->second, it->first));
 	}
 
-	sort (v.rbegin(), v.rend(), comp);
+	sort (v.begin(), v.end(), comp);
 
 	for (int i=0; i<v.size(); i++)
 		cout << v[i].second << ' ' << v[i].first << endl;

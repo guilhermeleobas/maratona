@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+// http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=37434
+
+>>>>>>> afaf711a42034f9654dd16b143c95a891406e66d
 #include <iostream>
 #include <vector>
 #include <algorithm>

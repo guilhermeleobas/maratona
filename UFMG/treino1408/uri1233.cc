@@ -46,15 +46,19 @@ long long pow (long long number, long long exp){
 
 
 long long phi (long long n){
-  vector<int> v (sqrt(n) + 10);
+  vector<pair<int, int> > p;
+  
   bool valid = false;
-  for (int i=2; i<primes.size(); i++){
+  
+  for (int i=0; i<primes.size(); i++){
     if (n <= 1)
       break;
-    v[i] = divide (n, i);
-    if (v[i]){
+    
+    int aux = divide (n, primes[i]);
+    
+    if (aux){
+      p.push_back (make_pair (primes[i], aux));
       valid = true;
-      cout << "dividido por " << i << " v[i] " << v[i] << " n = " << n << endl;
     }  
   }
   
@@ -62,13 +66,17 @@ long long phi (long long n){
     return (n-1);
   }
   
+  if (n > 1)
+    p.push_back(make_pair (n, 1));
+  
   long long ans = 1;
   
-  for (int i=1; i<v.size(); i++){
-    if (v[i]){
-      ans *= (i-1)*pow(i, v[i]-1);
-    }
+  for (int i=0; i<p.size(); i++){
+    int base = p[i].first;
+    int expoente = p[i].second;
+    ans *= (base-1)*pow (base, expoente-1);
   }
+  
   
   return ans;
 }
@@ -82,7 +90,8 @@ int main (){
     
     if (not cin) break;
     
-    cout << "recebeu " << n << " saida " << phi (n)/2 << endl;
+    cout << phi(n)/2 << endl;
+    //cout << "recebeu " << n << " saida " << phi (n)/2 << endl;
   }
   return 0;
 }

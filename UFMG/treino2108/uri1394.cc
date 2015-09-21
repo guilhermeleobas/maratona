@@ -16,92 +16,116 @@
 #include <cctype>
 using namespace std;
 
-#define EPS 1e-7
-#define INF 2147483000
-#define MAX 1024 //5000
+#define INF 0x3f3f3f3f
+#define endl "\n"
+typedef long long int ll;
+const int MAXN=5000;
 
-class Dinic{
-  private:
-    vector<vector<int> > adj, graph;
-
-  public:
-    Dinic(){}
-    Dinic(int n);
-    void init(int n);
-    void clear();
-    void addEdge(int from, int to, int capacity);
-    long long flow(int source, int sink);
-};
-
-Dinic::Dinic(int n)
-{ this->init(n); }
-
-void Dinic::init(int n)
+class Dinic
 {
-  this->graph.clear();
-  this->adj.clear();
-  this->adj.resize(n);
-  this->graph.resize(n, vector<int>(n, 0));
-}
-
-void Dinic::clear()
-{
-  this->graph.clear();
-  this->adj.clear();
-}
-
-void Dinic::addEdge(int from, int to, int capacity)
-{
-  if(this->graph[from][to]==0) this->adj[from].push_back(to);
-  this->graph[from][to]+=capacity;
-}
-
-long long Dinic::flow(int source, int sink)
-{
-  int pathCap=0, atual=0, bottleneck=0;
-  queue<int> q;
-  vector<int> previous(graph.size(), -1);
-  
-  while(true)
+ private:
+  typedef struct sedge
   {
-    q.push(source);
-    previous.clear();
-    previous.resize(graph.size(), -1);
-    previous[source] = -2;
+    int a, b; ll cap, flow;
+    sedge(int _a, int _b, ll _cap, ll _flow)
+    { a=_a; b=_b; cap=_cap; flow=_flow; }
+  } edge;
+  
+  // Number of vertices, source, sink, visited, queue
+  int n, s, t, d[MAXN], q[MAXN];
+  int ptr[MAXN];
+  vector<edge> vEdges;
+  vector<int> g[MAXN];
     
-    while(!q.empty() && previous[sink] == -1)
+  
+  bool bfs()
+  {
+    int qh=0, qt=0;
+    q[qt++]=this->s;
+    memset(this->d, -1, n*sizeof(d[0]));
+    this->d[this->s]=0;
+    while(qh < qt && d[this->t] == -1)
     {
-      atual = q.front();
-      q.pop();
-      for(unsigned int i = 0; i < this->adj[atual].size(); i++)
-        if(previous[adj[atual][i]] == -1 && this->graph[atual][adj[atual][i]])
-        { q.push(this->adj[atual][i]); previous[adj[atual][i]] = atual; }
-    }
-    
-    if(previous[sink] == -1) break;
-    while(!q.empty()) q.pop();
-    
-    for(int i = 0; i < this->graph.size(); i++) if(this->graph[i][sink] && previous[i] != -1)
-    {
-      bottleneck = this->graph[i][sink];
-      for(int v = i, u = previous[v]; u >= 0; v = u, u = previous[v])
-        bottleneck = min(bottleneck, this->graph[u][v]);
-      
-      if(!bottleneck) continue;
-      
-      this->graph[i][sink] -= bottleneck;
-      this->graph[sink][i] += bottleneck;
-      
-      for(int v = i, u = previous[v]; u >= 0; v = u, u = previous[v])
+      int v=q[qh++];
+      for(size_t i=0; i<g[v].size(); i++)
       {
-        this->graph[u][v] -= bottleneck;
-        this->graph[v][u] += bottleneck;
+        int id = g[v][i], to=vEdges[id].b;
+        if(d[to]==-1 && vEdges[id].flow < vEdges[id].cap)
+        { q[qt++]=to; d[to]=d[v]+1; }
       }
-      pathCap+=bottleneck;
     }
+    return d[t]!=-1;
   }
-  return pathCap;
-}
+  
+  ll dfs(int v, ll flow)
+  {
+    if(!flow) return 0;
+    if(v == t) return flow;
+    for(; ptr[v] < (int)g[v].size(); ptr[v]++)
+    {
+      int id=g[v][ptr[v]], to=vEdges[id].b;
+      
+      // If v did not find to on the bfs...
+      if(d[to]!=d[v]+1) continue;
+      
+      ll pushed=dfs(to, min(flow, vEdges[id].cap-vEdges[id].flow));
+      if(pushed)
+      {
+        vEdges[id].flow+=pushed;
+        vEdges[id^1].flow-=pushed;
+        return pushed;
+      }
+    }
+    return 0;
+  }
+  
+
+ public:
+  
+  Dinic()
+  { this->init(0); }
+
+  Dinic(int _n)
+  { this->init(_n); }
+
+  void init(int _n)
+  {
+    this->clear();
+    this->n=_n;
+  }
+
+  void clear()
+  {
+    this->vEdges.clear();
+    for(int i=0; i < MAXN; i++) g[i].clear();
+  }
+
+  void addEdge(int from, int to, ll cap)
+  {
+    edge e1(from, to, cap, 0);
+    edge e2(to, from, 0, 0);
+    
+    g[from].push_back((int)vEdges.size());
+    vEdges.push_back(e1);
+    g[to].push_back((int)vEdges.size());
+    vEdges.push_back(e2);
+  }
+  
+  ll flow(int source, int sink)
+  {
+    this->s=source;  this->t=sink;
+    ll flow=0;
+
+    while(true)
+    {
+      if(not bfs()) break;
+      memset(ptr, 0, n*sizeof(ptr[0]));
+      while(int pushed=dfs(s, INF))
+        flow+=pushed;
+    }
+    return flow;
+  }
+};
 
 
 int main (){
@@ -117,7 +141,6 @@ int main (){
     int total_games = ((n*n - n)/2) * m;
     int graph_size = total_games + 2 + n;
     int team_games = (n-1)*m;
-    int zero_points = 0;
     int zero_games = 0;
     for (int i=0; i<g; i++){
       int a, b;
@@ -129,14 +152,10 @@ int main (){
       
       if (type == '<'){
         points[b] += 2;
-        if (b == 0)
-          zero_points += 2;
       }
       else {
         points[a]++;
         points[b]++;
-        if (a == 0 or b == 0)
-          zero_points += 1;
       }
       
       if (a == 0 or b == 0)
@@ -159,11 +178,22 @@ int main (){
     
     Dinic d (graph_size);
     
+    bool invalid = false;
+    
     for (int i=1; i<n; i++){
       //d.addEdge (i, graph_size-1, zero_points + (team_games - zero_games)*2 - 1); 
-      d.addEdge (i, graph_size-1, zero_points + missing_games*2 - 1);
+      if (points[0] + missing_games*2 - points[i] - 1 < 0){
+        cout << "N\n";
+        invalid = true;
+        break;
+      }
+      else {
+        d.addEdge (i, graph_size-1, points[0] + missing_games*2 - points[i] - 1);
+      }
     }
     
+    if (invalid)
+      continue;
    
     int total_points = 0;
     int cnt = n;

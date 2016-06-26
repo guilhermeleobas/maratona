@@ -56,15 +56,7 @@ int main (){
   int n;
   cin >> n;
   
-  if (n % 2 == 0){
-    for (int i=0; i<primes.size(); i++){
-      if (binary_search (primes.begin(), primes.end(), n-primes[i])){
-          cout << "2\n";
-          cout << primes[i] << ' ' << n-primes[i] << "\n";
-      }
-    }
-  }
-  else if (is_prime(n)){
+  if (is_prime(n)){
     cout << "1\n" << n << '\n';
   }
   else {

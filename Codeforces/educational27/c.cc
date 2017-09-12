@@ -42,11 +42,40 @@ typedef vector<vector<int> > graph;
 int main (){
   ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
   
-  ll r;
-  cin >> r;
-  double pi = 3.14159;
+  int n;
+  cin >> n;
   
-  cout << fixed << setprecision(3) << "VOLUME = " << pi*r*r*r*4/3 << endl;
+  vector<pair<int, int>> v;
+  
+  for (int i=0; i<n; i++){
+    int a, b;
+    cin >> a >> b;
+    v.push_back(make_pair (a, b));
+  }
+  
+  sort (v.begin(), v.end(), std::less<pair<int, int>>());
+  
+  int s = 0;
+  int a = -1, b = -1;
+  
+  for (auto p : v){
+    if (p.first > a){
+      a = p.second;
+      s++;
+    }
+    else if (p.first > b){
+      b = p.second;
+      s++;
+    }
+    else
+      break;
+  }
+  
+  if (s == n)
+    cout << "YES\n";
+  else
+    cout << "NO\n";
   
   return 0;
 }
+

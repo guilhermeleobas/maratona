@@ -42,11 +42,23 @@ typedef vector<vector<int> > graph;
 int main (){
   ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
   
-  ll r;
-  cin >> r;
-  double pi = 3.14159;
+  int t;
+  cin >> t;
   
-  cout << fixed << setprecision(3) << "VOLUME = " << pi*r*r*r*4/3 << endl;
-  
+  if (t == 1)
+    cout << "Top 1" << endl;
+  else if (t <= 3)
+    cout << "Top 3" << endl;
+  else if (t <= 5)
+    cout << "Top 5" << endl;
+  else if (t <= 10)
+    cout << "Top 10" << endl;
+  else if (t <= 25)
+    cout << "Top 25" << endl;
+  else if (t <= 50)
+    cout << "Top 50" << endl;
+  else
+    cout << "Top 100" << endl;
+
   return 0;
 }

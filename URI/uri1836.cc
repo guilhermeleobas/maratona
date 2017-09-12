@@ -1,3 +1,4 @@
+
 #include <algorithm>
 #include <bitset>
 #include <complex>
@@ -42,11 +43,38 @@ typedef vector<vector<int> > graph;
 int main (){
   ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
   
-  ll r;
-  cin >> r;
-  double pi = 3.14159;
+  int n;
+  cin >> n;
+  int caso = 1;
   
-  cout << fixed << setprecision(3) << "VOLUME = " << pi*r*r*r*4/3 << endl;
+  for (int i=0; i<n; i++){
+    string pokemon;
+    int l;
+    cin >> pokemon >> l;
+    
+    int bs, iv;
+    float ev, aux;
+    
+    
+    cout << "Caso #" << caso++ << ": " << pokemon << " nivel " << l << endl;
+    
+    cin >> bs >> iv >> ev;
+    aux = sqrt(ev)/8;
+    cout << "HP: " << int( ( ( iv + bs + aux + 50 ) * l)/50 + 10) << endl;
+    
+    cin >> bs >> iv >> ev;
+    aux = sqrt(ev)/8;
+    cout << "AT: " << int( ( ( iv + bs + aux ) * l)/50 + 5) << endl;
+    
+    cin >> bs >> iv >> ev;
+    aux = sqrt(ev)/8;
+    cout << "DF: " << int(( ( iv + bs + aux ) * l)/50 + 5) << endl;
+    
+    cin >> bs >> iv >> ev;
+    aux = sqrt(ev)/8;
+    cout << "SP: " << int(( ( iv + bs + aux ) * l)/50 + 5) << endl;
+  }
   
   return 0;
 }
+

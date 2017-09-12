@@ -1,3 +1,4 @@
+
 #include <algorithm>
 #include <bitset>
 #include <complex>
@@ -42,11 +43,24 @@ typedef vector<vector<int> > graph;
 int main (){
   ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
   
-  ll r;
-  cin >> r;
-  double pi = 3.14159;
+  int v[250][250];
   
-  cout << fixed << setprecision(3) << "VOLUME = " << pi*r*r*r*4/3 << endl;
+  int n;
+  cin >> n;
+  
+  set<int> s;
+  
+  for (int i=0; i<n; i++)
+    for (int j=0; j<n; j++)
+      cin >> v[i][j];
+  
+  for (int i=0; i<2*n; i++){
+    int a, b;
+    cin >> a >> b;
+    s.insert (v[a-1][b-1]);
+  }
+  
+  cout << s.size() << endl;
   
   return 0;
 }

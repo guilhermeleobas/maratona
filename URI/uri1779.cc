@@ -42,11 +42,37 @@ typedef vector<vector<int> > graph;
 int main (){
   ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
   
-  ll r;
-  cin >> r;
-  double pi = 3.14159;
+  int t;
+  cin >> t;
   
-  cout << fixed << setprecision(3) << "VOLUME = " << pi*r*r*r*4/3 << endl;
+  int caso = 1;
+  
+  while (t--){
+    int n;
+    cin >> n;
+    
+    int v[100000];
+    int maximo = v[0];
+    
+    for (int i=0; i<n; i++){
+      cin >> v[i];
+      if (i == 0) maximo = v[0];
+      if (maximo < v[i]) maximo = v[i];
+    }
+    
+    int ans = 0;
+    int x = 0;
+    
+    for (int i=0; i<n; i++){
+      if (v[i] != maximo) x = 0;
+      else {
+        x++;
+        ans = max (ans, x);
+      }
+    }
+      
+    cout << "Caso #" << caso++ << ": " << ans << endl;
+  } 
   
   return 0;
 }

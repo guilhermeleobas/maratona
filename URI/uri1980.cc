@@ -42,11 +42,20 @@ typedef vector<vector<int> > graph;
 int main (){
   ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
   
-  ll r;
-  cin >> r;
-  double pi = 3.14159;
+  unsigned long long l = 0;
+  string s;
   
-  cout << fixed << setprecision(3) << "VOLUME = " << pi*r*r*r*4/3 << endl;
+  while (true){
+    cin >> s;
+    if (s == "0")
+      break;
+    
+    l = 1;
+    for (int i=1; i<1+s.size(); i++)
+      l *= i;
+    
+    cout << l << endl;
+  }
   
   return 0;
 }

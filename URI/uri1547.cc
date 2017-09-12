@@ -42,11 +42,26 @@ typedef vector<vector<int> > graph;
 int main (){
   ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
   
-  ll r;
-  cin >> r;
-  double pi = 3.14159;
+  int t;
+  cin >> t;
   
-  cout << fixed << setprecision(3) << "VOLUME = " << pi*r*r*r*4/3 << endl;
+  while (t--){
+    int n, m;
+    cin >> n >> m;
+    
+    vector<int> v(n);
+    for (int i=0; i<n; i++)
+      cin >> v[i];
+    
+    int ans = 0;
+    for (int i=0; i<n; i++){
+      v[i] = abs(v[i] - m);
+      if (v[i] < v[ans])
+        ans = i;
+    }
+    
+    cout << ans+1 << endl;
+  }
   
   return 0;
 }

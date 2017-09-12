@@ -42,11 +42,46 @@ typedef vector<vector<int> > graph;
 int main (){
   ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
   
-  ll r;
-  cin >> r;
-  double pi = 3.14159;
   
-  cout << fixed << setprecision(3) << "VOLUME = " << pi*r*r*r*4/3 << endl;
+  int n;
+  cin >> n;
+  
+  int overtake = 0;
+  int speed = INF;
+  int ans = 0;
+  
+  for (int i=0; i<n; i++){
+    int s;
+    cin >> s;
+    switch (s){
+      case 1:
+        cin >> speed;
+        break;
+      case 2:
+        if (overtake != 0) ans += overtake;
+        overtake = 0;
+        break;
+      case 3:
+        int sp;
+        cin >> sp;
+        if (speed > sp) ans++;
+        break;
+      case 4:
+        overtake = 0;
+        break;
+      case 5:
+        speed = INF;
+        break;
+      case 6:
+        overtake += 1;
+        break;
+      default:
+        break;
+    }
+  }
+  
+  cout << ans << endl;
   
   return 0;
 }
+

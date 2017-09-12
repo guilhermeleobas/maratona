@@ -1,3 +1,4 @@
+
 #include <algorithm>
 #include <bitset>
 #include <complex>
@@ -42,11 +43,26 @@ typedef vector<vector<int> > graph;
 int main (){
   ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
   
-  ll r;
-  cin >> r;
-  double pi = 3.14159;
+  double a;
+  cin >> a;
   
-  cout << fixed << setprecision(3) << "VOLUME = " << pi*r*r*r*4/3 << endl;
-  
+  if (a < 0.0){
+    cout << "Fora de intervalo" << endl;
+  }
+  else if (a <= 25.0){
+    cout << "Intervalo [0,25]" << endl;
+  }
+  else if (a <= 50.0){
+    cout << "Intervalo (25,50]" << endl;
+  }
+  else if (a <= 75.0){
+    cout << "Intervalo (50,75]" << endl;
+  }
+  else if (a <= 100.0){
+    cout << "Intervalo (75,100]" << endl;
+  }
+  else {
+    cout << "Fora de intervalo" << endl;
+  }
   return 0;
 }

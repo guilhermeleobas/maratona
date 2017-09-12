@@ -1,3 +1,4 @@
+
 #include <algorithm>
 #include <bitset>
 #include <complex>
@@ -42,11 +43,24 @@ typedef vector<vector<int> > graph;
 int main (){
   ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
   
-  ll r;
-  cin >> r;
-  double pi = 3.14159;
+  int n, c;
+  cin >> n >> c;
   
-  cout << fixed << setprecision(3) << "VOLUME = " << pi*r*r*r*4/3 << endl;
-  
+  cout << "Total: R$ ";
+  if (n == 1){
+    cout << fixed << setprecision(2) << 4.0*c << endl;
+  }
+  else if (n == 2){
+    cout << fixed << setprecision(2) << 4.5*c << endl;
+  }
+  else if (n == 3){
+    cout << fixed << setprecision(2) << 5.0*c << endl;
+  }
+  else if (n == 4){
+    cout << fixed << setprecision(2) << 2.0*c << endl;
+  }
+  else {
+    cout << fixed << setprecision(2) << 1.5*c << endl;
+  }
   return 0;
 }

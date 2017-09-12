@@ -1,3 +1,4 @@
+
 #include <algorithm>
 #include <bitset>
 #include <complex>
@@ -42,11 +43,20 @@ typedef vector<vector<int> > graph;
 int main (){
   ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
   
-  ll r;
-  cin >> r;
-  double pi = 3.14159;
+  int a, b, c, d;
+  cin >> a >> b >> c >> d;
   
-  cout << fixed << setprecision(3) << "VOLUME = " << pi*r*r*r*4/3 << endl;
+  if (b > c and
+      d > a and
+      c+d > b+a and
+      c > 0 and
+      d > 0 and
+      a % 2 == 0){
+    cout << "Valores aceitos" << endl;
+  }
+  else {
+    cout << "Valores nao aceitos" << endl;
+  }
   
   return 0;
 }
